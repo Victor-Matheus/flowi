@@ -5,608 +5,564 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Flowi — Demo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;1,8..60,300;1,8..60,400&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
+  *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
   :root {
-    --green-50: #E1F5EE;
-    --green-100: #9FE1CB;
-    --green-400: #1D9E75;
-    --green-600: #0F6E56;
-    --green-800: #085041;
-    --gray-50: #F7F6F2;
-    --gray-100: #EEEDE8;
-    --gray-200: #D3D1C7;
-    --gray-400: #888780;
-    --gray-500: #5F5E5A;
-    --gray-800: #2C2C2A;
-    --red-50: #FCEBEB;
-    --red-100: #F7C1C1;
-    --red-600: #A32D2D;
-    --amber-50: #FAEEDA;
-    --amber-600: #854F0B;
-    --blue-50: #E6F1FB;
-    --blue-600: #185FA5;
+    --green-50:#E4F2EC; --green-100:#9FE1CB; --green-400:#1D9E75; --green-600:#0F6E56; --green-800:#085041;
+    --gray-50:#F9F8F5; --gray-100:#EDECEA; --gray-200:#D5D3CE; --gray-300:#B8B5AE; --gray-400:#95928B;
+    --gray-500:#78756E; --gray-700:#3E3B35; --gray-800:#252320;
+    --red-50:#FAEBEB; --red-100:#F5CCCC; --red-600:#9E2B2B;
+    --amber-50:#FAF0DC; --amber-600:#7A4A0A;
+    --blue-50:#E5EFF9; --blue-600:#174F90;
+    --purple-50:#F0EAFA; --purple-600:#5B3EA0;
   }
+  html, body { height:100%; }
+  body { font-family:'Source Serif 4', Georgia, serif; background:var(--gray-50); color:var(--gray-800); font-size:13px; display:flex; flex-direction:column; }
 
-  html, body { height: 100%; }
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--gray-50);
-    color: var(--gray-800);
-    font-size: 13px;
-    display: flex;
-    flex-direction: column;
-  }
-
-  /* TOP BAR */
-  .topnav {
-    height: 48px; background: white;
-    border-bottom: 1px solid var(--gray-100);
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0 1.5rem; flex-shrink: 0;
-  }
-  .topnav-logo {
-    font-family: 'Syne', sans-serif; font-size: 16px;
-    font-weight: 800; letter-spacing: -0.5px; color: var(--green-600);
-    display: flex; align-items: center; gap: 6px;
-  }
-  .logo-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green-400); }
-  .topnav-right { display: flex; align-items: center; gap: 12px; }
-  .demo-badge {
-    background: var(--amber-50); color: var(--amber-600);
-    font-size: 10px; font-weight: 500; padding: 3px 10px;
-    border-radius: 20px; letter-spacing: 0.5px;
-  }
-  .back-link {
-    font-size: 12px; color: var(--gray-400);
-    text-decoration: none; display: flex; align-items: center; gap: 4px;
-    transition: color 0.2s;
-  }
-  .back-link:hover { color: var(--gray-800); }
+  /* TOPNAV */
+  .topnav { height:50px; background:white; border-bottom:1px solid var(--gray-100); display:flex; align-items:center; justify-content:space-between; padding:0 1.5rem; flex-shrink:0; }
+  .topnav-logo { font-family:'Playfair Display', serif; font-size:18px; font-weight:700; color:var(--gray-800); display:flex; align-items:center; gap:7px; }
+  .logo-dot { width:7px; height:7px; border-radius:50%; background:var(--green-400); margin-bottom:1px; }
+  .topnav-right { display:flex; align-items:center; gap:12px; }
+  .demo-badge { background:var(--amber-50); color:var(--amber-600); font-size:10px; padding:3px 10px; border-radius:20px; letter-spacing:0.5px; font-style:italic; }
+  .back-link { font-size:12px; color:var(--gray-400); text-decoration:none; transition:color .2s; }
+  .back-link:hover { color:var(--gray-800); }
 
   /* LAYOUT */
-  .app { display: flex; flex: 1; overflow: hidden; }
+  .app { display:flex; flex:1; overflow:hidden; }
 
   /* SIDEBAR */
-  .sidebar {
-    width: 200px; background: white;
-    border-right: 1px solid var(--gray-100);
-    display: flex; flex-direction: column;
-    padding: 12px 0; flex-shrink: 0;
-    overflow-y: auto;
-  }
-  .nav-section { padding: 0 12px; margin-bottom: 4px; }
-  .nav-label {
-    font-size: 10px; font-weight: 500; color: var(--gray-400);
-    letter-spacing: 0.8px; text-transform: uppercase;
-    padding: 8px 8px 4px;
-  }
-  .nav-item {
-    display: flex; align-items: center; gap: 9px;
-    padding: 8px; border-radius: 7px;
-    font-size: 12px; color: var(--gray-500); cursor: pointer;
-    transition: all 0.15s; margin-bottom: 1px;
-    user-select: none;
-  }
-  .nav-item:hover { background: var(--gray-50); color: var(--gray-800); }
-  .nav-item.active { background: var(--green-50); color: var(--green-600); font-weight: 500; }
-  .nav-item .icon { font-size: 16px; flex-shrink: 0; }
-  .sidebar-spacer { flex: 1; }
-  .sidebar-user {
-    display: flex; align-items: center; gap: 8px;
-    padding: 12px 16px; border-top: 1px solid var(--gray-100);
-    margin-top: 8px;
-  }
-  .user-avatar {
-    width: 28px; height: 28px; border-radius: 50%;
-    background: var(--green-50); color: var(--green-600);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 10px; font-weight: 500; flex-shrink: 0;
-  }
-  .user-info .name { font-size: 11px; font-weight: 500; }
-  .user-info .plan { font-size: 10px; color: var(--gray-400); }
+  .sidebar { width:196px; background:white; border-right:1px solid var(--gray-100); display:flex; flex-direction:column; padding:10px 0; flex-shrink:0; overflow-y:auto; }
+  .nav-label { font-size:10px; color:var(--gray-300); letter-spacing:1px; text-transform:uppercase; padding:10px 16px 4px; font-style:italic; }
+  .nav-item { display:flex; align-items:center; gap:9px; padding:8px 14px; font-size:12px; color:var(--gray-500); cursor:pointer; transition:all .15s; margin:1px 8px; border-radius:5px; user-select:none; }
+  .nav-item:hover { background:var(--gray-50); color:var(--gray-800); }
+  .nav-item.active { background:var(--green-50); color:var(--green-600); font-weight:500; }
+  .nav-item .icon { font-size:15px; flex-shrink:0; }
+  .sidebar-spacer { flex:1; }
+  .sidebar-user { display:flex; align-items:center; gap:8px; padding:12px 14px; border-top:1px solid var(--gray-100); margin-top:8px; }
+  .user-avatar { width:28px; height:28px; border-radius:50%; background:var(--green-50); color:var(--green-600); display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:500; flex-shrink:0; font-family:'Source Serif 4', serif; }
+  .user-name { font-size:11px; font-weight:500; }
+  .user-plan { font-size:10px; color:var(--gray-400); font-style:italic; }
 
   /* MAIN */
-  .main { flex: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 20px; }
+  .main { flex:1; overflow-y:auto; padding:22px 26px; display:flex; flex-direction:column; gap:18px; }
 
-  /* PAGE HEADER */
-  .page-header { display: flex; align-items: flex-start; justify-content: space-between; }
-  .page-title { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 3px; }
-  .page-sub { font-size: 11px; color: var(--gray-400); }
-  .header-actions { display: flex; gap: 8px; }
-  .btn-sm {
-    padding: 7px 14px; border-radius: 7px; font-size: 12px;
-    font-family: 'DM Sans', sans-serif; cursor: pointer;
-    transition: all 0.15s; font-weight: 400; border: none;
-  }
-  .btn-outline { background: white; border: 1px solid var(--gray-200); color: var(--gray-500); }
-  .btn-outline:hover { border-color: var(--gray-400); color: var(--gray-800); }
-  .btn-filled { background: var(--green-600); color: var(--green-50); font-weight: 500; }
-  .btn-filled:hover { background: var(--green-800); }
+  .page-header { display:flex; align-items:flex-start; justify-content:space-between; }
+  .page-title { font-family:'Playfair Display', serif; font-size:20px; font-weight:700; letter-spacing:-0.3px; margin-bottom:3px; }
+  .page-sub { font-size:11px; color:var(--gray-400); font-style:italic; }
+  .header-actions { display:flex; gap:8px; }
+  .btn-sm { padding:7px 14px; border-radius:5px; font-size:12px; font-family:'Source Serif 4', serif; cursor:pointer; transition:all .15s; border:none; }
+  .btn-outline { background:white; border:1px solid var(--gray-200); color:var(--gray-500); }
+  .btn-outline:hover { border-color:var(--gray-400); color:var(--gray-800); }
+  .btn-filled { background:var(--green-600); color:white; font-weight:400; }
+  .btn-filled:hover { background:var(--green-800); }
 
   /* METRICS */
-  .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-  .metric {
-    background: white; border: 1px solid var(--gray-100);
-    border-radius: 10px; padding: 14px 16px;
-    transition: border-color 0.2s;
-  }
-  .metric:hover { border-color: var(--gray-200); }
-  .metric-label { font-size: 11px; color: var(--gray-400); margin-bottom: 8px; }
-  .metric-value { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; letter-spacing: -0.8px; margin-bottom: 5px; }
-  .metric-value.green { color: var(--green-600); }
-  .metric-value.red { color: var(--red-600); }
-  .metric-value.amber { color: var(--amber-600); }
-  .metric-delta { font-size: 10px; color: var(--gray-400); display: flex; align-items: center; gap: 3px; }
-  .metric-delta.up { color: var(--green-600); }
-  .metric-delta.down { color: var(--red-600); }
+  .metrics { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+  .metric { background:white; border:1px solid var(--gray-100); border-radius:8px; padding:14px 16px; transition:border-color .2s; }
+  .metric:hover { border-color:var(--gray-200); }
+  .metric-label { font-size:11px; color:var(--gray-400); margin-bottom:7px; font-style:italic; }
+  .metric-value { font-family:'Playfair Display', serif; font-size:22px; font-weight:700; letter-spacing:-0.5px; margin-bottom:4px; }
+  .metric-value.green { color:var(--green-600); }
+  .metric-value.red { color:var(--red-600); }
+  .metric-value.amber { color:var(--amber-600); }
+  .metric-delta { font-size:10px; color:var(--gray-400); font-style:italic; }
+  .metric-delta.up { color:var(--green-600); }
 
   /* CARD */
-  .card { background: white; border: 1px solid var(--gray-100); border-radius: 10px; overflow: hidden; }
-  .card-header {
-    padding: 14px 16px; border-bottom: 1px solid var(--gray-100);
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .card-title { font-size: 13px; font-weight: 500; }
-  .card-sub { font-size: 11px; color: var(--gray-400); margin-top: 2px; }
-  .card-body { padding: 16px; }
+  .card { background:white; border:1px solid var(--gray-100); border-radius:8px; overflow:hidden; }
+  .card-header { padding:13px 16px; border-bottom:1px solid var(--gray-100); display:flex; align-items:center; justify-content:space-between; }
+  .card-title { font-family:'Playfair Display', serif; font-size:14px; font-weight:700; letter-spacing:-0.2px; }
+  .card-sub { font-size:11px; color:var(--gray-400); margin-top:2px; font-style:italic; }
+  .card-body { padding:16px; }
+  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
 
-  /* TWO COLS */
-  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .three-col { display: grid; grid-template-columns: 2fr 1fr; gap: 12px; }
-
-  /* CHART BARS */
-  .bar-chart { display: flex; flex-direction: column; gap: 8px; }
-  .bar-row { display: flex; align-items: center; gap: 10px; }
-  .bar-month { width: 56px; font-size: 11px; color: var(--gray-400); text-align: right; flex-shrink: 0; }
-  .bar-track { flex: 1; height: 22px; background: var(--gray-50); border-radius: 5px; overflow: hidden; }
-  .bar-fill {
-    height: 100%; border-radius: 5px;
-    display: flex; align-items: center; padding-left: 10px;
-    font-size: 10px; font-weight: 500; color: var(--green-800);
-    background: var(--green-50);
-    transition: width 1s cubic-bezier(.4,0,.2,1);
-  }
-  .bar-fill.animate { width: 0 !important; }
+  /* BARS */
+  .bar-chart { display:flex; flex-direction:column; gap:7px; }
+  .bar-row { display:flex; align-items:center; gap:10px; }
+  .bar-month { width:52px; font-size:11px; color:var(--gray-400); text-align:right; flex-shrink:0; font-style:italic; }
+  .bar-track { flex:1; height:20px; background:var(--gray-50); border-radius:4px; overflow:hidden; }
+  .bar-fill { height:100%; border-radius:4px; display:flex; align-items:center; padding-left:10px; font-size:10px; color:var(--green-800); background:var(--green-50); transition:width 1s cubic-bezier(.4,0,.2,1); }
+  .bar-fill.animate { width:0 !important; }
 
   /* TABLE */
-  .cobr-table { width: 100%; border-collapse: collapse; }
-  .cobr-table thead th {
-    padding: 8px 16px; text-align: left;
-    font-size: 10px; font-weight: 500; color: var(--gray-400);
-    text-transform: uppercase; letter-spacing: 0.5px;
-    background: var(--gray-50); border-bottom: 1px solid var(--gray-100);
-  }
-  .cobr-table tbody tr {
-    border-bottom: 1px solid var(--gray-100);
-    cursor: pointer; transition: background 0.1s;
-  }
-  .cobr-table tbody tr:hover { background: var(--gray-50); }
-  .cobr-table tbody tr:last-child { border-bottom: none; }
-  .cobr-table td { padding: 11px 16px; }
-  .client-name { font-size: 12px; font-weight: 500; margin-bottom: 2px; }
-  .client-type { font-size: 10px; color: var(--gray-400); }
-  .cobr-val { font-size: 12px; font-weight: 500; }
-  .cobr-date { font-size: 11px; color: var(--gray-400); }
+  .cobr-table { width:100%; border-collapse:collapse; }
+  .cobr-table thead th { padding:8px 14px; text-align:left; font-size:10px; color:var(--gray-400); text-transform:uppercase; letter-spacing:0.8px; background:var(--gray-50); border-bottom:1px solid var(--gray-100); font-weight:400; font-style:italic; }
+  .cobr-table tbody tr { border-bottom:1px solid var(--gray-100); cursor:pointer; transition:background .1s; }
+  .cobr-table tbody tr:hover { background:var(--gray-50); }
+  .cobr-table tbody tr:last-child { border-bottom:none; }
+  .cobr-table td { padding:10px 14px; }
+  .client-name { font-size:12px; font-weight:500; margin-bottom:2px; }
+  .client-type { font-size:10px; color:var(--gray-400); font-style:italic; }
 
-  /* BADGES */
-  .badge {
-    display: inline-flex; align-items: center;
-    padding: 3px 9px; border-radius: 20px;
-    font-size: 10px; font-weight: 500;
-  }
-  .badge.pago { background: var(--green-50); color: var(--green-800); }
-  .badge.pendente { background: var(--amber-50); color: var(--amber-600); }
-  .badge.atrasado { background: var(--red-50); color: var(--red-600); }
-  .badge.agendado { background: var(--blue-50); color: var(--blue-600); }
+  .badge { display:inline-flex; align-items:center; padding:2px 9px; border-radius:20px; font-size:10px; font-style:italic; }
+  .badge.pago { background:var(--green-50); color:var(--green-800); }
+  .badge.pendente { background:var(--amber-50); color:var(--amber-600); }
+  .badge.atrasado { background:var(--red-50); color:var(--red-600); }
+  .badge.agendado { background:var(--blue-50); color:var(--blue-600); }
 
   /* RÉGUA */
-  .regua-list { display: flex; flex-direction: column; }
-  .regua-item {
-    display: flex; align-items: center; gap: 12px;
-    padding: 12px 0; border-bottom: 1px solid var(--gray-100);
-  }
-  .regua-item:last-child { border-bottom: none; }
-  .regua-icon {
-    width: 32px; height: 32px; border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 15px; flex-shrink: 0;
-  }
-  .regua-icon.wpp { background: var(--green-50); color: var(--green-600); }
-  .regua-icon.mail { background: var(--blue-50); color: var(--blue-600); }
-  .regua-icon.sms { background: var(--amber-50); color: var(--amber-600); }
-  .regua-body { flex: 1; min-width: 0; }
-  .regua-title { font-size: 12px; font-weight: 500; }
-  .regua-desc { font-size: 10px; color: var(--gray-400); margin-top: 2px; }
-  .toggle {
-    width: 32px; height: 18px; border-radius: 20px;
-    background: var(--green-400); position: relative;
-    cursor: pointer; flex-shrink: 0; transition: background 0.2s;
-  }
-  .toggle::after {
-    content: ''; position: absolute;
-    width: 14px; height: 14px; border-radius: 50%;
-    background: white; top: 2px; right: 2px;
-    transition: right 0.2s, left 0.2s;
-  }
-  .toggle.off { background: var(--gray-200); }
-  .toggle.off::after { right: auto; left: 2px; }
+  .regua-list { display:flex; flex-direction:column; }
+  .regua-item { display:flex; align-items:center; gap:11px; padding:11px 0; border-bottom:1px solid var(--gray-100); }
+  .regua-item:last-child { border-bottom:none; }
+  .regua-icon { width:30px; height:30px; border-radius:7px; display:flex; align-items:center; justify-content:center; font-size:14px; flex-shrink:0; }
+  .regua-icon.wpp { background:var(--green-50); }
+  .regua-icon.mail { background:var(--blue-50); }
+  .regua-icon.sms { background:var(--amber-50); }
+  .regua-body { flex:1; }
+  .regua-title { font-size:12px; font-weight:500; }
+  .regua-desc { font-size:10px; color:var(--gray-400); margin-top:2px; font-style:italic; }
+  .toggle { width:30px; height:17px; border-radius:20px; background:var(--green-400); position:relative; cursor:pointer; flex-shrink:0; transition:background .2s; }
+  .toggle::after { content:''; position:absolute; width:13px; height:13px; border-radius:50%; background:white; top:2px; right:2px; transition:all .2s; box-shadow:0 1px 2px rgba(0,0,0,.1); }
+  .toggle.off { background:var(--gray-200); }
+  .toggle.off::after { right:auto; left:2px; }
 
   /* SCORE */
-  .score-list { display: flex; flex-direction: column; gap: 10px; }
-  .score-row { display: flex; align-items: center; gap: 10px; }
-  .score-name { flex: 1; font-size: 12px; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .score-track { width: 90px; height: 6px; background: var(--gray-100); border-radius: 3px; overflow: hidden; flex-shrink: 0; }
-  .score-bar { height: 100%; border-radius: 3px; }
-  .score-bar.low { background: var(--green-400); }
-  .score-bar.med { background: #EF9F27; }
-  .score-bar.high { background: #E24B4A; }
-  .score-val { width: 26px; font-size: 11px; font-weight: 500; text-align: right; flex-shrink: 0; }
-  .score-val.low { color: var(--green-600); }
-  .score-val.med { color: var(--amber-600); }
-  .score-val.high { color: var(--red-600); }
+  .score-list { display:flex; flex-direction:column; gap:10px; }
+  .score-row { display:flex; align-items:center; gap:10px; }
+  .score-name { flex:1; font-size:12px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .score-track { width:88px; height:5px; background:var(--gray-100); border-radius:3px; overflow:hidden; flex-shrink:0; }
+  .score-bar { height:100%; border-radius:3px; }
+  .score-bar.low { background:var(--green-400); }
+  .score-bar.med { background:#EF9F27; }
+  .score-bar.high { background:#E24B4A; }
+  .score-val { width:24px; font-size:11px; font-weight:500; text-align:right; flex-shrink:0; font-family:'Playfair Display', serif; }
+  .score-val.low { color:var(--green-600); }
+  .score-val.med { color:var(--amber-600); }
+  .score-val.high { color:var(--red-600); }
 
-  /* CONCILIAÇÃO */
-  .concil-list { display: flex; flex-direction: column; gap: 0; }
-  .concil-item {
-    display: flex; align-items: center; gap: 12px;
-    padding: 10px 0; border-bottom: 1px solid var(--gray-100);
+  /* ===== PROVIDERS ===== */
+  .providers-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+  .provider-card {
+    border:1px solid var(--gray-100); border-radius:8px; padding:14px;
+    background:white; transition:all .2s; position:relative; overflow:hidden;
   }
-  .concil-item:last-child { border-bottom: none; }
-  .concil-icon {
-    width: 28px; height: 28px; border-radius: 6px;
-    background: var(--green-50); color: var(--green-600);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 13px; flex-shrink: 0;
+  .provider-card:hover { border-color:var(--gray-200); }
+  .provider-card.active { border-color:var(--green-400); }
+  .provider-card.inactive { opacity:0.65; }
+  .provider-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
+  .provider-logo { display:flex; align-items:center; gap:8px; }
+  .provider-icon { width:32px; height:32px; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:14px; flex-shrink:0; }
+  .provider-name { font-family:'Playfair Display', serif; font-size:13px; font-weight:700; }
+  .provider-type { font-size:10px; color:var(--gray-400); margin-top:1px; font-style:italic; }
+  .provider-status { display:inline-flex; align-items:center; gap:4px; font-size:10px; padding:3px 8px; border-radius:20px; font-style:italic; }
+  .provider-status.on { background:var(--green-50); color:var(--green-600); }
+  .provider-status.on::before { content:''; width:5px; height:5px; border-radius:50%; background:var(--green-400); display:inline-block; }
+  .provider-status.off { background:var(--gray-100); color:var(--gray-400); }
+  .provider-status.off::before { content:''; width:5px; height:5px; border-radius:50%; background:var(--gray-300); display:inline-block; }
+  .provider-status.pending { background:var(--amber-50); color:var(--amber-600); }
+  .provider-status.pending::before { content:''; width:5px; height:5px; border-radius:50%; background:#EF9F27; display:inline-block; }
+  .provider-metrics { display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:10px; }
+  .prov-metric { background:var(--gray-50); border-radius:5px; padding:7px 9px; }
+  .prov-metric-val { font-family:'Playfair Display', serif; font-size:14px; font-weight:700; color:var(--gray-800); }
+  .prov-metric-lbl { font-size:9px; color:var(--gray-400); margin-top:2px; font-style:italic; text-transform:uppercase; letter-spacing:0.5px; }
+  .provider-actions { display:flex; gap:6px; }
+  .btn-prov {
+    flex:1; padding:6px 10px; border-radius:5px; font-size:11px;
+    font-family:'Source Serif 4', serif; cursor:pointer; transition:all .15s;
+    text-align:center; border:none; font-style:italic;
   }
-  .concil-icon.mismatch { background: var(--red-50); color: var(--red-600); }
-  .concil-body { flex: 1; }
-  .concil-title { font-size: 11px; font-weight: 500; }
-  .concil-desc { font-size: 10px; color: var(--gray-400); margin-top: 1px; }
-  .concil-val { font-size: 11px; font-weight: 500; flex-shrink: 0; }
+  .btn-prov.config { background:var(--gray-50); color:var(--gray-500); border:1px solid var(--gray-100); }
+  .btn-prov.config:hover { border-color:var(--gray-300); color:var(--gray-800); }
+  .btn-prov.disable { background:var(--red-50); color:var(--red-600); }
+  .btn-prov.disable:hover { background:var(--red-100); }
+  .btn-prov.enable { background:var(--green-50); color:var(--green-600); }
+  .btn-prov.enable:hover { background:var(--green-100); }
+  .btn-prov.connect { background:var(--green-600); color:white; }
+  .btn-prov.connect:hover { background:var(--green-800); }
 
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-  .main > * { animation: fadeIn 0.4s ease both; }
-  .main > *:nth-child(1) { animation-delay: 0.05s; }
-  .main > *:nth-child(2) { animation-delay: 0.1s; }
-  .main > *:nth-child(3) { animation-delay: 0.15s; }
-  .main > *:nth-child(4) { animation-delay: 0.2s; }
-  .main > *:nth-child(5) { animation-delay: 0.25s; }
+  .add-provider {
+    border:1.5px dashed var(--gray-200); border-radius:8px; padding:14px;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:8px; cursor:pointer; transition:all .2s; min-height:160px;
+    color:var(--gray-400); background:transparent;
+  }
+  .add-provider:hover { border-color:var(--green-400); color:var(--green-600); background:var(--green-50); }
+  .add-provider-icon { font-size:22px; }
+  .add-provider-text { font-size:12px; font-style:italic; }
+
+  /* ROTEAMENTO */
+  .routing-rules { display:flex; flex-direction:column; gap:0; }
+  .routing-rule { display:flex; align-items:center; gap:12px; padding:11px 0; border-bottom:1px solid var(--gray-100); }
+  .routing-rule:last-child { border-bottom:none; }
+  .routing-cond { flex:1; }
+  .routing-cond-title { font-size:12px; font-weight:500; }
+  .routing-cond-desc { font-size:10px; color:var(--gray-400); margin-top:2px; font-style:italic; }
+  .routing-arrow { color:var(--gray-300); font-size:16px; flex-shrink:0; }
+  .routing-dest { display:flex; align-items:center; gap:6px; }
+  .routing-dest-badge { background:var(--gray-50); border:1px solid var(--gray-100); border-radius:5px; padding:4px 9px; font-size:11px; font-weight:500; white-space:nowrap; }
+
+  @keyframes fadeIn { from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);} }
+  .main > * { animation:fadeIn .4s ease both; }
+  .main > *:nth-child(1){animation-delay:.04s}
+  .main > *:nth-child(2){animation-delay:.08s}
+  .main > *:nth-child(3){animation-delay:.12s}
+  .main > *:nth-child(4){animation-delay:.16s}
+  .main > *:nth-child(5){animation-delay:.20s}
+  .main > *:nth-child(6){animation-delay:.24s}
+
+  /* MODAL */
+  .modal-overlay { display:none; position:fixed; inset:0; background:rgba(37,35,32,.45); z-index:200; align-items:center; justify-content:center; }
+  .modal-overlay.open { display:flex; }
+  .modal { background:white; border-radius:10px; padding:24px; width:360px; max-width:90vw; box-shadow:0 20px 60px rgba(0,0,0,.15); }
+  .modal h3 { font-family:'Playfair Display', serif; font-size:16px; font-weight:700; margin-bottom:6px; }
+  .modal p { font-size:12px; color:var(--gray-500); font-style:italic; margin-bottom:18px; }
+  .modal-providers { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:18px; }
+  .modal-prov { border:1px solid var(--gray-100); border-radius:7px; padding:12px 10px; cursor:pointer; transition:all .15s; display:flex; align-items:center; gap:8px; }
+  .modal-prov:hover { border-color:var(--green-400); background:var(--green-50); }
+  .modal-prov-icon { font-size:18px; }
+  .modal-prov-name { font-size:12px; font-weight:500; }
+  .modal-prov-type { font-size:10px; color:var(--gray-400); font-style:italic; }
+  .modal-actions { display:flex; gap:8px; justify-content:flex-end; }
+  .modal-cancel { background:none; border:1px solid var(--gray-200); color:var(--gray-500); padding:8px 16px; border-radius:5px; font-size:12px; cursor:pointer; font-family:'Source Serif 4', serif; font-style:italic; }
+  .modal-cancel:hover { border-color:var(--gray-400); }
 </style>
 </head>
 <body>
 
 <div class="topnav">
-  <div class="topnav-logo">
-    <div class="logo-dot"></div>
-    flowi
-  </div>
+  <div class="topnav-logo"><div class="logo-dot"></div>Flowi</div>
   <div class="topnav-right">
-    <span class="demo-badge">DEMO</span>
-    <a href="index.html" class="back-link">← Voltar ao site</a>
+    <span class="demo-badge">modo demo</span>
+    <a href="index.html" class="back-link">← voltar ao site</a>
   </div>
 </div>
 
 <div class="app">
-
   <aside class="sidebar">
-    <div class="nav-section">
-      <div class="nav-label">Principal</div>
-      <div class="nav-item active" onclick="setActive(this)">
-        <span class="icon">📊</span> Dashboard
-      </div>
-      <div class="nav-item" onclick="setActive(this)">
-        <span class="icon">💳</span> Cobranças
-      </div>
-      <div class="nav-item" onclick="setActive(this)">
-        <span class="icon">👥</span> Clientes
-      </div>
-    </div>
-    <div class="nav-section">
-      <div class="nav-label">Automação</div>
-      <div class="nav-item" onclick="setActive(this)">
-        <span class="icon">🤖</span> Régua
-      </div>
-      <div class="nav-item" onclick="setActive(this)">
-        <span class="icon">🔔</span> Notificações
-      </div>
-    </div>
-    <div class="nav-section">
-      <div class="nav-label">Financeiro</div>
-      <div class="nav-item" onclick="setActive(this)">
-        <span class="icon">🔄</span> Conciliação
-      </div>
-      <div class="nav-item" onclick="setActive(this)">
-        <span class="icon">📈</span> Relatórios
-      </div>
-      <div class="nav-item" onclick="setActive(this)">
-        <span class="icon">⚡</span> Antecipação
-      </div>
-    </div>
+    <div class="nav-label">Principal</div>
+    <div class="nav-item active" onclick="navigate(this,'dashboard')"><span class="icon">📊</span> Dashboard</div>
+    <div class="nav-item" onclick="navigate(this,'cobranças')"><span class="icon">💳</span> Cobranças</div>
+    <div class="nav-item" onclick="navigate(this,'clientes')"><span class="icon">👥</span> Clientes</div>
+    <div class="nav-label">Automação</div>
+    <div class="nav-item" onclick="navigate(this,'régua')"><span class="icon">🤖</span> Régua</div>
+    <div class="nav-item" onclick="navigate(this,'notificações')"><span class="icon">🔔</span> Notificações</div>
+    <div class="nav-label">Financeiro</div>
+    <div class="nav-item" onclick="navigate(this,'conciliação')"><span class="icon">🔄</span> Conciliação</div>
+    <div class="nav-item" onclick="navigate(this,'relatórios')"><span class="icon">📈</span> Relatórios</div>
+    <div class="nav-label">Infraestrutura</div>
+    <div class="nav-item" id="nav-providers" onclick="navigate(this,'providers')"><span class="icon">🔌</span> Providers</div>
+    <div class="nav-item" onclick="navigate(this,'roteamento')"><span class="icon">↔️</span> Roteamento</div>
     <div class="sidebar-spacer"></div>
-    <div class="nav-section">
-      <div class="nav-item" onclick="setActive(this)">
-        <span class="icon">⚙️</span> Configurações
-      </div>
-    </div>
+    <div class="nav-item" onclick="navigate(this,'configurações')"><span class="icon">⚙️</span> Configurações</div>
     <div class="sidebar-user">
       <div class="user-avatar">VC</div>
-      <div class="user-info">
-        <div class="name">Você</div>
-        <div class="plan">Plano Pro</div>
-      </div>
+      <div><div class="user-name">Você</div><div class="user-plan">Plano Pro</div></div>
     </div>
   </aside>
 
-  <main class="main">
-
-    <div class="page-header">
-      <div>
-        <div class="page-title">Visão geral — maio 2026</div>
-        <div class="page-sub">Última atualização: agora mesmo · 23 cobranças ativas</div>
-      </div>
-      <div class="header-actions">
-        <button class="btn-sm btn-outline">Exportar</button>
-        <button class="btn-sm btn-filled">+ Nova cobrança</button>
-      </div>
-    </div>
-
-    <div class="metrics">
-      <div class="metric">
-        <div class="metric-label">Recebido no mês</div>
-        <div class="metric-value green">R$84.300</div>
-        <div class="metric-delta up">↑ 12% vs abril</div>
-      </div>
-      <div class="metric">
-        <div class="metric-label">A receber</div>
-        <div class="metric-value">R$31.500</div>
-        <div class="metric-delta">18 cobranças abertas</div>
-      </div>
-      <div class="metric">
-        <div class="metric-label">Em atraso</div>
-        <div class="metric-value red">R$7.200</div>
-        <div class="metric-delta down">4 clientes · régua ativa</div>
-      </div>
-      <div class="metric">
-        <div class="metric-label">Taxa de recebimento</div>
-        <div class="metric-value amber">89%</div>
-        <div class="metric-delta">Meta: 95%</div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-header">
+  <main class="main" id="mainContent">
+    <!-- Dashboard view (default) -->
+    <div id="view-dashboard">
+      <div class="page-header">
         <div>
-          <div class="card-title">Recebimentos por mês</div>
-          <div class="card-sub">Janeiro – maio 2026</div>
+          <div class="page-title">Visão geral — maio 2026</div>
+          <div class="page-sub">Última atualização: agora mesmo · 23 cobranças ativas</div>
+        </div>
+        <div class="header-actions">
+          <button class="btn-sm btn-outline">Exportar</button>
+          <button class="btn-sm btn-filled">+ Nova cobrança</button>
         </div>
       </div>
-      <div class="card-body">
-        <div class="bar-chart" id="barChart">
-          <div class="bar-row">
-            <div class="bar-month">Jan</div>
-            <div class="bar-track"><div class="bar-fill animate" data-width="58%">R$58k</div></div>
-          </div>
-          <div class="bar-row">
-            <div class="bar-month">Fev</div>
-            <div class="bar-track"><div class="bar-fill animate" data-width="63%">R$63k</div></div>
-          </div>
-          <div class="bar-row">
-            <div class="bar-month">Mar</div>
-            <div class="bar-track"><div class="bar-fill animate" data-width="71%">R$71k</div></div>
-          </div>
-          <div class="bar-row">
-            <div class="bar-month">Abr</div>
-            <div class="bar-track"><div class="bar-fill animate" data-width="75%">R$75k</div></div>
-          </div>
-          <div class="bar-row">
-            <div class="bar-month">Mai</div>
-            <div class="bar-track"><div class="bar-fill animate" data-width="84%">R$84k</div></div>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <div class="card">
-      <div class="card-header">
-        <div>
-          <div class="card-title">Cobranças recentes</div>
-          <div class="card-sub">Últimas 5 transações</div>
-        </div>
-        <button class="btn-sm btn-outline">Ver todas</button>
+      <div class="metrics">
+        <div class="metric"><div class="metric-label">Recebido no mês</div><div class="metric-value green">R$84.300</div><div class="metric-delta up">↑ 12% vs abril</div></div>
+        <div class="metric"><div class="metric-label">A receber</div><div class="metric-value">R$31.500</div><div class="metric-delta">18 cobranças abertas</div></div>
+        <div class="metric"><div class="metric-label">Em atraso</div><div class="metric-value red">R$7.200</div><div class="metric-delta" style="color:var(--red-600)">4 clientes · régua ativa</div></div>
+        <div class="metric"><div class="metric-label">Taxa de recebimento</div><div class="metric-value amber">89%</div><div class="metric-delta">Meta: 95%</div></div>
       </div>
-      <table class="cobr-table">
-        <thead>
-          <tr>
-            <th>Cliente</th>
-            <th>Valor</th>
-            <th>Vencimento</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><div class="client-name">Agência Hive</div><div class="client-type">Gestão de tráfego pago</div></td>
-            <td><div class="cobr-val">R$12.000</div></td>
-            <td><div class="cobr-date">05/05/2026</div></td>
-            <td><span class="badge pago">Pago</span></td>
-          </tr>
-          <tr>
-            <td><div class="client-name">Nova Mídia Co.</div><div class="client-type">Produção de conteúdo</div></td>
-            <td><div class="cobr-val">R$8.500</div></td>
-            <td><div class="cobr-date">10/05/2026</div></td>
-            <td><span class="badge pendente">Pendente</span></td>
-          </tr>
-          <tr>
-            <td><div class="client-name">GrowthLab</div><div class="client-type">Consultoria de growth</div></td>
-            <td><div class="cobr-val">R$5.200</div></td>
-            <td><div class="cobr-date">01/05/2026</div></td>
-            <td><span class="badge atrasado">Atrasado</span></td>
-          </tr>
-          <tr>
-            <td><div class="client-name">Pixel & Co.</div><div class="client-type">Design e branding</div></td>
-            <td><div class="cobr-val">R$3.800</div></td>
-            <td><div class="cobr-date">15/05/2026</div></td>
-            <td><span class="badge agendado">Agendado</span></td>
-          </tr>
-          <tr>
-            <td><div class="client-name">Tráfego Forte</div><div class="client-type">Mídia performance</div></td>
-            <td><div class="cobr-val">R$9.100</div></td>
-            <td><div class="cobr-date">08/05/2026</div></td>
-            <td><span class="badge pago">Pago</span></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="two-col">
 
       <div class="card">
-        <div class="card-header">
-          <div>
-            <div class="card-title">Régua de cobrança</div>
-            <div class="card-sub">4 etapas ativas</div>
-          </div>
-          <button class="btn-sm btn-outline">Editar</button>
-        </div>
+        <div class="card-header"><div><div class="card-title">Recebimentos por mês</div><div class="card-sub">Janeiro – maio 2026</div></div></div>
         <div class="card-body">
-          <div class="regua-list">
-            <div class="regua-item">
-              <div class="regua-icon wpp">💬</div>
-              <div class="regua-body">
-                <div class="regua-title">WhatsApp — D-3</div>
-                <div class="regua-desc">Lembrete amigável 3 dias antes</div>
-              </div>
-              <div class="toggle" onclick="toggleSwitch(this)"></div>
-            </div>
-            <div class="regua-item">
-              <div class="regua-icon mail">✉️</div>
-              <div class="regua-body">
-                <div class="regua-title">E-mail — vencimento</div>
-                <div class="regua-desc">Link de pagamento no dia</div>
-              </div>
-              <div class="toggle" onclick="toggleSwitch(this)"></div>
-            </div>
-            <div class="regua-item">
-              <div class="regua-icon wpp">💬</div>
-              <div class="regua-body">
-                <div class="regua-title">WhatsApp — D+2</div>
-                <div class="regua-desc">Retry automático em atraso</div>
-              </div>
-              <div class="toggle" onclick="toggleSwitch(this)"></div>
-            </div>
-            <div class="regua-item">
-              <div class="regua-icon sms">📱</div>
-              <div class="regua-body">
-                <div class="regua-title">SMS — D+7</div>
-                <div class="regua-desc">Última notificação automática</div>
-              </div>
-              <div class="toggle" onclick="toggleSwitch(this)"></div>
-            </div>
+          <div class="bar-chart">
+            <div class="bar-row"><div class="bar-month">Jan</div><div class="bar-track"><div class="bar-fill animate" data-width="58%">R$58k</div></div></div>
+            <div class="bar-row"><div class="bar-month">Fev</div><div class="bar-track"><div class="bar-fill animate" data-width="63%">R$63k</div></div></div>
+            <div class="bar-row"><div class="bar-month">Mar</div><div class="bar-track"><div class="bar-fill animate" data-width="71%">R$71k</div></div></div>
+            <div class="bar-row"><div class="bar-month">Abr</div><div class="bar-track"><div class="bar-fill animate" data-width="75%">R$75k</div></div></div>
+            <div class="bar-row"><div class="bar-month">Mai</div><div class="bar-track"><div class="bar-fill animate" data-width="84%">R$84k</div></div></div>
           </div>
         </div>
       </div>
 
-      <div style="display: flex; flex-direction: column; gap: 12px;">
+      <div class="card">
+        <div class="card-header"><div><div class="card-title">Cobranças recentes</div><div class="card-sub">Últimas 5 transações</div></div><button class="btn-sm btn-outline">Ver todas</button></div>
+        <table class="cobr-table">
+          <thead><tr><th>Cliente</th><th>Valor</th><th>Vencimento</th><th>Provider</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td><div class="client-name">Agência Hive</div><div class="client-type">Tráfego pago</div></td><td>R$12.000</td><td style="font-size:11px;color:var(--gray-400)">05/05/26</td><td><span style="font-size:10px;color:var(--gray-400);font-style:italic">Adyen</span></td><td><span class="badge pago">Pago</span></td></tr>
+            <tr><td><div class="client-name">Nova Mídia Co.</div><div class="client-type">Conteúdo</div></td><td>R$8.500</td><td style="font-size:11px;color:var(--gray-400)">10/05/26</td><td><span style="font-size:10px;color:var(--gray-400);font-style:italic">Getnet</span></td><td><span class="badge pendente">Pendente</span></td></tr>
+            <tr><td><div class="client-name">GrowthLab</div><div class="client-type">Consultoria</div></td><td>R$5.200</td><td style="font-size:11px;color:var(--gray-400)">01/05/26</td><td><span style="font-size:10px;color:var(--gray-400);font-style:italic">Getnet</span></td><td><span class="badge atrasado">Atrasado</span></td></tr>
+            <tr><td><div class="client-name">Pixel & Co.</div><div class="client-type">Design</div></td><td>R$3.800</td><td style="font-size:11px;color:var(--gray-400)">15/05/26</td><td><span style="font-size:10px;color:var(--gray-400);font-style:italic">Adyen</span></td><td><span class="badge agendado">Agendado</span></td></tr>
+            <tr><td><div class="client-name">Tráfego Forte</div><div class="client-type">Performance</div></td><td>R$9.100</td><td style="font-size:11px;color:var(--gray-400)">08/05/26</td><td><span style="font-size:10px;color:var(--gray-400);font-style:italic">PagSeguro</span></td><td><span class="badge pago">Pago</span></td></tr>
+          </tbody>
+        </table>
+      </div>
 
+      <div class="two-col">
         <div class="card">
-          <div class="card-header">
-            <div>
-              <div class="card-title">Score de inadimplência</div>
-              <div class="card-sub">Baseado em histórico</div>
+          <div class="card-header"><div><div class="card-title">Régua de cobrança</div><div class="card-sub">4 etapas ativas</div></div><button class="btn-sm btn-outline">Editar</button></div>
+          <div class="card-body">
+            <div class="regua-list">
+              <div class="regua-item"><div class="regua-icon wpp">💬</div><div class="regua-body"><div class="regua-title">WhatsApp — D-3</div><div class="regua-desc">Lembrete amigável antes do vencimento</div></div><div class="toggle" onclick="this.classList.toggle('off')"></div></div>
+              <div class="regua-item"><div class="regua-icon mail">✉️</div><div class="regua-body"><div class="regua-title">E-mail — vencimento</div><div class="regua-desc">Link de pagamento no dia</div></div><div class="toggle" onclick="this.classList.toggle('off')"></div></div>
+              <div class="regua-item"><div class="regua-icon wpp">💬</div><div class="regua-body"><div class="regua-title">WhatsApp — D+2</div><div class="regua-desc">Retry automático em atraso</div></div><div class="toggle" onclick="this.classList.toggle('off')"></div></div>
+              <div class="regua-item"><div class="regua-icon sms">📱</div><div class="regua-body"><div class="regua-title">SMS — D+7</div><div class="regua-desc">Última notificação automática</div></div><div class="toggle" onclick="this.classList.toggle('off')"></div></div>
             </div>
           </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div><div class="card-title">Score de inadimplência</div><div class="card-sub">Por histórico de pagamento</div></div></div>
           <div class="card-body">
             <div class="score-list">
-              <div class="score-row">
-                <div class="score-name">Agência Hive</div>
-                <div class="score-track"><div class="score-bar low" style="width:12%"></div></div>
-                <div class="score-val low">12</div>
-              </div>
-              <div class="score-row">
-                <div class="score-name">Nova Mídia Co.</div>
-                <div class="score-track"><div class="score-bar med" style="width:38%"></div></div>
-                <div class="score-val med">38</div>
-              </div>
-              <div class="score-row">
-                <div class="score-name">GrowthLab</div>
-                <div class="score-track"><div class="score-bar high" style="width:74%"></div></div>
-                <div class="score-val high">74</div>
-              </div>
-              <div class="score-row">
-                <div class="score-name">Pixel & Co.</div>
-                <div class="score-track"><div class="score-bar low" style="width:8%"></div></div>
-                <div class="score-val low">8</div>
-              </div>
-              <div class="score-row">
-                <div class="score-name">Tráfego Forte</div>
-                <div class="score-track"><div class="score-bar low" style="width:21%"></div></div>
-                <div class="score-val low">21</div>
-              </div>
+              <div class="score-row"><div class="score-name">Agência Hive</div><div class="score-track"><div class="score-bar low" style="width:12%"></div></div><div class="score-val low">12</div></div>
+              <div class="score-row"><div class="score-name">Nova Mídia Co.</div><div class="score-track"><div class="score-bar med" style="width:38%"></div></div><div class="score-val med">38</div></div>
+              <div class="score-row"><div class="score-name">GrowthLab</div><div class="score-track"><div class="score-bar high" style="width:74%"></div></div><div class="score-val high">74</div></div>
+              <div class="score-row"><div class="score-name">Pixel & Co.</div><div class="score-track"><div class="score-bar low" style="width:8%"></div></div><div class="score-val low">8</div></div>
+              <div class="score-row"><div class="score-name">Tráfego Forte</div><div class="score-track"><div class="score-bar low" style="width:21%"></div></div><div class="score-val low">21</div></div>
             </div>
           </div>
         </div>
+      </div>
+    </div><!-- /dashboard -->
 
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">Conciliação automática</div>
-          </div>
-          <div class="card-body" style="padding: 12px 16px;">
-            <div class="concil-list">
-              <div class="concil-item">
-                <div class="concil-icon">✓</div>
-                <div class="concil-body">
-                  <div class="concil-title">Agência Hive — PIX</div>
-                  <div class="concil-desc">Conciliado automaticamente</div>
-                </div>
-                <div class="concil-val" style="color: var(--green-600);">R$12.000</div>
-              </div>
-              <div class="concil-item">
-                <div class="concil-icon">✓</div>
-                <div class="concil-body">
-                  <div class="concil-title">Tráfego Forte — cartão</div>
-                  <div class="concil-desc">Conciliado automaticamente</div>
-                </div>
-                <div class="concil-val" style="color: var(--green-600);">R$9.100</div>
-              </div>
-              <div class="concil-item">
-                <div class="concil-icon mismatch">!</div>
-                <div class="concil-body">
-                  <div class="concil-title">GrowthLab — boleto</div>
-                  <div class="concil-desc">Pagamento parcial detectado</div>
-                </div>
-                <div class="concil-val" style="color: var(--red-600);">R$3.000</div>
-              </div>
+    <!-- Providers view -->
+    <div id="view-providers" style="display:none">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Providers de pagamento</div>
+          <div class="page-sub">Gerencie, ative e configure seus processadores</div>
+        </div>
+        <div class="header-actions">
+          <button class="btn-sm btn-filled" onclick="openModal()">+ Conectar provider</button>
+        </div>
+      </div>
+
+      <div class="providers-grid" id="providersGrid">
+
+        <!-- Adyen -->
+        <div class="provider-card active" id="card-adyen">
+          <div class="provider-header">
+            <div class="provider-logo">
+              <div class="provider-icon" style="background:#E8F5E9">🟢</div>
+              <div><div class="provider-name">Adyen</div><div class="provider-type">Global acquirer</div></div>
             </div>
+            <span class="provider-status on">ativo</span>
           </div>
+          <div class="provider-metrics">
+            <div class="prov-metric"><div class="prov-metric-val">R$51k</div><div class="prov-metric-lbl">Volume/mês</div></div>
+            <div class="prov-metric"><div class="prov-metric-val">98.4%</div><div class="prov-metric-lbl">Aprovação</div></div>
+          </div>
+          <div class="provider-actions">
+            <button class="btn-prov config">Configurar</button>
+            <button class="btn-prov disable" onclick="toggleProvider('adyen', false)">Desativar</button>
+          </div>
+        </div>
+
+        <!-- Getnet -->
+        <div class="provider-card active" id="card-getnet">
+          <div class="provider-header">
+            <div class="provider-logo">
+              <div class="provider-icon" style="background:#E3F0FF">🔵</div>
+              <div><div class="provider-name">Getnet</div><div class="provider-type">Santander / Nacional</div></div>
+            </div>
+            <span class="provider-status on">ativo</span>
+          </div>
+          <div class="provider-metrics">
+            <div class="prov-metric"><div class="prov-metric-val">R$28k</div><div class="prov-metric-lbl">Volume/mês</div></div>
+            <div class="prov-metric"><div class="prov-metric-val">96.1%</div><div class="prov-metric-lbl">Aprovação</div></div>
+          </div>
+          <div class="provider-actions">
+            <button class="btn-prov config">Configurar</button>
+            <button class="btn-prov disable" onclick="toggleProvider('getnet', false)">Desativar</button>
+          </div>
+        </div>
+
+        <!-- PagSeguro -->
+        <div class="provider-card active" id="card-pagseguro">
+          <div class="provider-header">
+            <div class="provider-logo">
+              <div class="provider-icon" style="background:#FFF4E0">🟡</div>
+              <div><div class="provider-name">PagSeguro</div><div class="provider-type">UOL / Nacional</div></div>
+            </div>
+            <span class="provider-status on">ativo</span>
+          </div>
+          <div class="provider-metrics">
+            <div class="prov-metric"><div class="prov-metric-val">R$11k</div><div class="prov-metric-lbl">Volume/mês</div></div>
+            <div class="prov-metric"><div class="prov-metric-val">94.7%</div><div class="prov-metric-lbl">Aprovação</div></div>
+          </div>
+          <div class="provider-actions">
+            <button class="btn-prov config">Configurar</button>
+            <button class="btn-prov disable" onclick="toggleProvider('pagseguro', false)">Desativar</button>
+          </div>
+        </div>
+
+        <!-- Cielo — inativo -->
+        <div class="provider-card inactive" id="card-cielo">
+          <div class="provider-header">
+            <div class="provider-logo">
+              <div class="provider-icon" style="background:#FDE8E8">🔴</div>
+              <div><div class="provider-name">Cielo</div><div class="provider-type">Nacional</div></div>
+            </div>
+            <span class="provider-status off">inativo</span>
+          </div>
+          <div class="provider-metrics">
+            <div class="prov-metric"><div class="prov-metric-val">—</div><div class="prov-metric-lbl">Volume/mês</div></div>
+            <div class="prov-metric"><div class="prov-metric-val">—</div><div class="prov-metric-lbl">Aprovação</div></div>
+          </div>
+          <div class="provider-actions">
+            <button class="btn-prov config">Configurar</button>
+            <button class="btn-prov enable" onclick="toggleProvider('cielo', true)">Ativar</button>
+          </div>
+        </div>
+
+        <!-- Stripe — pendente -->
+        <div class="provider-card" id="card-stripe">
+          <div class="provider-header">
+            <div class="provider-logo">
+              <div class="provider-icon" style="background:#F0EAFA">🟣</div>
+              <div><div class="provider-name">Stripe</div><div class="provider-type">Global / API-first</div></div>
+            </div>
+            <span class="provider-status pending">pendente</span>
+          </div>
+          <div class="provider-metrics">
+            <div class="prov-metric"><div class="prov-metric-val">—</div><div class="prov-metric-lbl">Volume/mês</div></div>
+            <div class="prov-metric"><div class="prov-metric-val">—</div><div class="prov-metric-lbl">Aprovação</div></div>
+          </div>
+          <div class="provider-actions">
+            <button class="btn-prov connect" onclick="connectStripe()">Finalizar setup</button>
+          </div>
+        </div>
+
+        <!-- Add -->
+        <div class="add-provider" onclick="openModal()">
+          <div class="add-provider-icon">＋</div>
+          <div class="add-provider-text">Conectar novo provider</div>
         </div>
 
       </div>
-    </div>
+
+      <!-- Roteamento inteligente -->
+      <div class="card" style="margin-top:0">
+        <div class="card-header">
+          <div><div class="card-title">Roteamento inteligente</div><div class="card-sub">Regras de direcionamento automático por tipo de transação</div></div>
+          <button class="btn-sm btn-outline">Editar regras</button>
+        </div>
+        <div class="card-body">
+          <div class="routing-rules">
+            <div class="routing-rule">
+              <div class="routing-cond"><div class="routing-cond-title">Cartão internacional</div><div class="routing-cond-desc">Transações com BIN fora do Brasil</div></div>
+              <div class="routing-arrow">→</div>
+              <div class="routing-dest"><div class="routing-dest-badge">🟢 Adyen</div></div>
+            </div>
+            <div class="routing-rule">
+              <div class="routing-cond"><div class="routing-cond-title">PIX e boleto</div><div class="routing-cond-desc">Pagamentos instantâneos e bancários</div></div>
+              <div class="routing-arrow">→</div>
+              <div class="routing-dest"><div class="routing-dest-badge">🔵 Getnet</div></div>
+            </div>
+            <div class="routing-rule">
+              <div class="routing-cond"><div class="routing-cond-title">Cartão nacional · valor &lt; R$500</div><div class="routing-cond-desc">Transações menores no cartão local</div></div>
+              <div class="routing-arrow">→</div>
+              <div class="routing-dest"><div class="routing-dest-badge">🟡 PagSeguro</div></div>
+            </div>
+            <div class="routing-rule">
+              <div class="routing-cond"><div class="routing-cond-title">Fallback automático</div><div class="routing-cond-desc">Se o provider primário recusar a transação</div></div>
+              <div class="routing-arrow">→</div>
+              <div class="routing-dest"><div class="routing-dest-badge">🔵 Getnet</div><div style="font-size:10px;color:var(--gray-400);font-style:italic;margin-left:4px">+ retry</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /providers -->
 
   </main>
 </div>
 
+<!-- Modal: conectar provider -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <h3>Conectar provider</h3>
+    <p>Escolha o processador que deseja integrar ao Flowi</p>
+    <div class="modal-providers">
+      <div class="modal-prov" onclick="closeModal()"><div class="modal-prov-icon">🏦</div><div><div class="modal-prov-name">Pagar.me</div><div class="modal-prov-type">Nacional</div></div></div>
+      <div class="modal-prov" onclick="closeModal()"><div class="modal-prov-icon">💜</div><div><div class="modal-prov-name">Rede</div><div class="modal-prov-type">Itaú</div></div></div>
+      <div class="modal-prov" onclick="closeModal()"><div class="modal-prov-icon">🟠</div><div><div class="modal-prov-name">Stone</div><div class="modal-prov-type">Nacional</div></div></div>
+      <div class="modal-prov" onclick="closeModal()"><div class="modal-prov-icon">🌎</div><div><div class="modal-prov-name">Braintree</div><div class="modal-prov-type">Global</div></div></div>
+      <div class="modal-prov" onclick="closeModal()"><div class="modal-prov-icon">💳</div><div><div class="modal-prov-name">Mercado Pago</div><div class="modal-prov-type">LATAM</div></div></div>
+      <div class="modal-prov" onclick="closeModal()"><div class="modal-prov-icon">🔷</div><div><div class="modal-prov-name">Outro</div><div class="modal-prov-type">Via API</div></div></div>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-cancel" onclick="closeModal()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
 <script>
-  function setActive(el) {
+  // Navigation
+  function navigate(el, view) {
     document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
     el.classList.add('active');
+    document.querySelectorAll('[id^="view-"]').forEach(v => v.style.display = 'none');
+    const target = document.getElementById('view-' + view);
+    if (target) {
+      target.style.display = 'contents';
+      // animate bars when dashboard shown
+      if (view === 'dashboard') animateBars();
+    }
   }
 
-  function toggleSwitch(el) {
-    el.classList.toggle('off');
-  }
-
-  window.addEventListener('load', () => {
+  // Animate bars
+  function animateBars() {
     setTimeout(() => {
       document.querySelectorAll('.bar-fill.animate').forEach(bar => {
         bar.style.width = bar.dataset.width;
         bar.classList.remove('animate');
       });
-    }, 300);
-  });
+    }, 200);
+  }
+
+  // Toggle provider
+  function toggleProvider(id, activate) {
+    const card = document.getElementById('card-' + id);
+    const status = card.querySelector('.provider-status');
+    const btn = card.querySelector('.btn-prov.disable, .btn-prov.enable');
+    const metrics = card.querySelectorAll('.prov-metric-val');
+    if (activate) {
+      card.classList.remove('inactive');
+      card.classList.add('active');
+      status.className = 'provider-status on';
+      status.textContent = 'ativo';
+      btn.className = 'btn-prov disable';
+      btn.textContent = 'Desativar';
+      btn.onclick = () => toggleProvider(id, false);
+      metrics[0].textContent = 'R$0';
+      metrics[1].textContent = '—';
+    } else {
+      card.classList.remove('active');
+      card.classList.add('inactive');
+      status.className = 'provider-status off';
+      status.textContent = 'inativo';
+      btn.className = 'btn-prov enable';
+      btn.textContent = 'Ativar';
+      btn.onclick = () => toggleProvider(id, true);
+    }
+  }
+
+  function connectStripe() {
+    const card = document.getElementById('card-stripe');
+    card.querySelector('.provider-status').className = 'provider-status on';
+    card.querySelector('.provider-status').textContent = 'ativo';
+    card.classList.add('active');
+    card.querySelector('.btn-prov.connect').className = 'btn-prov disable';
+    card.querySelector('.btn-prov.disable').textContent = 'Desativar';
+  }
+
+  function openModal() { document.getElementById('modalOverlay').classList.add('open'); }
+  function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
+
+  // Init
+  window.addEventListener('load', animateBars);
 </script>
 </body>
 </html>
