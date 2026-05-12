@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flowi — Finança inteligente para marketing digital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green-50: #E1F5EE;
+    --green-100: #9FE1CB;
+    --green-400: #1D9E75;
+    --green-600: #0F6E56;
+    --green-800: #085041;
+    --gray-50: #F7F6F2;
+    --gray-100: #EEEDE8;
+    --gray-300: #C8C7BF;
+    --gray-500: #888780;
+    --gray-800: #2C2C2A;
+    --red-50: #FCEBEB;
+    --red-600: #A32D2D;
+    --amber-50: #FAEEDA;
+    --amber-600: #854F0B;
+    --blue-50: #E6F1FB;
+    --blue-600: #185FA5;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #FAFAF8;
+    color: var(--gray-800);
+    line-height: 1.6;
+    font-size: 16px;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(250,250,248,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--gray-100);
+    padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 56px;
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px; font-weight: 800; letter-spacing: -0.5px;
+    display: flex; align-items: center; gap: 7px;
+  }
+  .nav-logo-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green-400); }
+  .nav-links { display: flex; align-items: center; gap: 1.5rem; }
+  .nav-links a { font-size: 13px; color: var(--gray-500); transition: color 0.2s; }
+  .nav-links a:hover { color: var(--gray-800); }
+  .nav-cta {
+    background: var(--green-600); color: var(--green-50);
+    padding: 8px 18px; border-radius: 8px;
+    font-size: 13px; font-weight: 500;
+    border: none; cursor: pointer;
+    transition: background 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .nav-cta:hover { background: var(--green-800); }
+
+  /* LAYOUT */
+  .container { max-width: 960px; margin: 0 auto; padding: 0 2rem; }
+
+  /* HERO */
+  .hero {
+    padding: 6rem 0 5rem;
+    border-bottom: 1px solid var(--gray-100);
+  }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 11px; font-weight: 500; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--green-600);
+    background: var(--green-50); padding: 4px 12px;
+    border-radius: 20px; margin-bottom: 1.5rem;
+  }
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(36px, 6vw, 58px);
+    font-weight: 800; line-height: 1.05;
+    letter-spacing: -2px; margin-bottom: 1.5rem;
+  }
+  .hero h1 em { font-style: normal; color: var(--green-400); }
+  .hero-sub {
+    font-size: 17px; color: var(--gray-500);
+    font-weight: 300; max-width: 520px;
+    line-height: 1.75; margin-bottom: 2.5rem;
+  }
+  .hero-cta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 3.5rem; }
+  .btn-primary {
+    background: var(--green-600); color: var(--green-50);
+    padding: 13px 28px; border-radius: 9px;
+    font-size: 14px; font-weight: 500;
+    border: none; cursor: pointer;
+    transition: background 0.2s;
+    font-family: 'DM Sans', sans-serif;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--green-800); }
+  .btn-ghost {
+    background: transparent; color: var(--gray-500);
+    border: 1px solid var(--gray-300);
+    padding: 13px 28px; border-radius: 9px;
+    font-size: 14px; font-weight: 400; cursor: pointer;
+    transition: all 0.2s; font-family: 'DM Sans', sans-serif;
+    display: inline-block;
+  }
+  .btn-ghost:hover { background: var(--gray-100); color: var(--gray-800); }
+
+  .stats-row {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    border: 1px solid var(--gray-100); border-radius: 12px;
+    overflow: hidden; max-width: 560px;
+  }
+  .stat {
+    padding: 1.25rem 1.5rem;
+    border-right: 1px solid var(--gray-100);
+  }
+  .stat:last-child { border-right: none; }
+  .stat-val {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px; font-weight: 700;
+    color: var(--green-600); letter-spacing: -1px;
+    margin-bottom: 4px;
+  }
+  .stat-lbl { font-size: 11px; color: var(--gray-500); line-height: 1.4; }
+
+  /* FEATURES */
+  .features { padding: 5rem 0; border-bottom: 1px solid var(--gray-100); }
+  .section-header { margin-bottom: 3rem; }
+  .section-header h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px; font-weight: 700;
+    letter-spacing: -0.8px; margin-bottom: 0.5rem;
+  }
+  .section-header p { font-size: 15px; color: var(--gray-500); }
+
+  .feat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--gray-100); border: 1px solid var(--gray-100); border-radius: 12px; overflow: hidden; }
+  .feat {
+    background: #FAFAF8; padding: 2rem;
+    transition: background 0.2s;
+  }
+  .feat:hover { background: white; }
+  .feat-icon {
+    width: 40px; height: 40px; border-radius: 10px;
+    background: var(--green-50); display: flex;
+    align-items: center; justify-content: center;
+    margin-bottom: 1rem; font-size: 18px; color: var(--green-600);
+  }
+  .feat h3 { font-size: 15px; font-weight: 500; margin-bottom: 0.5rem; }
+  .feat p { font-size: 13px; color: var(--gray-500); line-height: 1.6; }
+
+  /* HOW IT WORKS */
+  .how { padding: 5rem 0; border-bottom: 1px solid var(--gray-100); }
+  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; margin-top: 3rem; }
+  .step { }
+  .step-num {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--green-50); color: var(--green-600);
+    font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1rem;
+  }
+  .step h3 { font-size: 14px; font-weight: 500; margin-bottom: 6px; }
+  .step p { font-size: 12px; color: var(--gray-500); line-height: 1.6; }
+
+  /* PRICING */
+  .pricing { padding: 5rem 0; border-bottom: 1px solid var(--gray-100); }
+  .plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 3rem; }
+  .plan {
+    border: 1px solid var(--gray-100); border-radius: 14px;
+    padding: 1.75rem; background: white;
+    transition: border-color 0.2s;
+  }
+  .plan:hover { border-color: var(--gray-300); }
+  .plan.featured { border: 2px solid var(--green-400); }
+  .plan-badge {
+    display: inline-block; background: var(--green-50);
+    color: var(--green-600); font-size: 10px; font-weight: 500;
+    padding: 3px 10px; border-radius: 20px; margin-bottom: 12px;
+  }
+  .plan-name { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+  .plan-price {
+    font-family: 'Syne', sans-serif; font-size: 32px;
+    font-weight: 800; color: var(--green-600);
+    letter-spacing: -1px; margin: 12px 0 4px;
+  }
+  .plan-price span { font-size: 14px; font-weight: 400; color: var(--gray-500); letter-spacing: 0; }
+  .plan-desc { font-size: 12px; color: var(--gray-500); margin-bottom: 1.25rem; line-height: 1.5; }
+  .plan-divider { border: none; border-top: 1px solid var(--gray-100); margin-bottom: 1rem; }
+  .plan-item {
+    display: flex; align-items: flex-start; gap: 8px;
+    font-size: 12px; color: var(--gray-500); padding: 5px 0;
+  }
+  .plan-item::before { content: '✓'; color: var(--green-400); font-weight: 700; flex-shrink: 0; }
+
+  /* FOOTER */
+  footer {
+    padding: 3rem 0; text-align: center;
+    border-top: 1px solid var(--gray-100);
+  }
+  .footer-logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px; font-weight: 800; color: var(--green-400);
+    display: flex; align-items: center; justify-content: center; gap: 7px;
+    margin-bottom: 8px;
+  }
+  footer p { font-size: 12px; color: var(--gray-500); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero h1 { animation: fadeUp 0.6s ease both; }
+  .hero-sub { animation: fadeUp 0.6s 0.1s ease both; }
+  .hero-cta { animation: fadeUp 0.6s 0.2s ease both; }
+  .stats-row { animation: fadeUp 0.6s 0.3s ease both; }
+
+  @media (max-width: 640px) {
+    .feat-grid { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: repeat(2, 1fr); }
+    .plans { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .stats-row { grid-template-columns: 1fr; }
+    .stat { border-right: none; border-bottom: 1px solid var(--gray-100); }
+    .stat:last-child { border-bottom: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">
+    <div class="nav-logo-dot"></div>
+    flowi
+  </div>
+  <div class="nav-links">
+    <a href="#features">Funcionalidades</a>
+    <a href="#como-funciona">Como funciona</a>
+    <a href="#pricing">Preços</a>
+    <a href="demo.html">Demo</a>
+  </div>
+  <a href="demo.html" class="nav-cta">Ver demo →</a>
+</nav>
+
+<section class="hero">
+  <div class="container">
+    <div class="eyebrow">Fintech para Marketing Digital B2B</div>
+    <h1>Cobre mais.<br><em>Perca menos.</em><br>Entenda tudo.</h1>
+    <p class="hero-sub">A plataforma financeira feita para agências e empresas de marketing digital. Cobranças inteligentes, conciliação automática e dados que fazem sentido.</p>
+    <div class="hero-cta">
+      <a href="#pricing" class="btn-primary">Começar grátis</a>
+      <a href="demo.html" class="btn-ghost">Ver demo →</a>
+    </div>
+    <div class="stats-row">
+      <div class="stat">
+        <div class="stat-val">-68%</div>
+        <div class="stat-lbl">Inadimplência com régua automática</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val">4h</div>
+        <div class="stat-lbl">Economizadas por semana em conciliação</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val">D+1</div>
+        <div class="stat-lbl">Antecipação de recebíveis</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="features" id="features">
+  <div class="container">
+    <div class="section-header">
+      <h2>Tudo que você precisa, num lugar só</h2>
+      <p>Do link de pagamento ao relatório do contador — sem planilha, sem dor de cabeça.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat">
+        <div class="feat-icon">⚡</div>
+        <h3>Cobrança inteligente</h3>
+        <p>Régua automática via WhatsApp e e-mail. Retry com ML baseado no perfil de pagamento de cada cliente.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">📊</div>
+        <h3>Conciliação automática</h3>
+        <p>Bate cobranças emitidas com pagamentos recebidos. Relatório pronto para o contador em um clique.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">💳</div>
+        <h3>Gateway integrado</h3>
+        <p>PIX, cartão e boleto. Split de pagamento para comissões de parceiros e afiliados, sem configuração manual.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">🎯</div>
+        <h3>Score de inadimplência</h3>
+        <p>Visão clara do que está aberto, vencido e a vencer. Saiba antes de acontecer quem vai atrasar.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">🔗</div>
+        <h3>Integrações nativas</h3>
+        <p>Conecta com RD Station, HubSpot, e os ERPs mais usados por agências. API aberta para o restante.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">📈</div>
+        <h3>Antecipação de recebíveis</h3>
+        <p>Transforme recebíveis futuros em caixa imediato. Taxas competitivas, aprovação em minutos.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="how" id="como-funciona">
+  <div class="container">
+    <div class="section-header">
+      <h2>Como funciona</h2>
+      <p>Em menos de 10 minutos você já está cobrando.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Cadastre seus clientes</h3>
+        <p>Importe da sua planilha ou cadastre manualmente. Flowi organiza por contrato, valor e vencimento.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Configure a régua</h3>
+        <p>Defina quando e como notificar. Flowi envia automaticamente por WhatsApp e e-mail com link de pagamento.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Receba e concilie</h3>
+        <p>Pagamentos são conciliados em tempo real. Sem trabalho manual, sem surpresa no fechamento do mês.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h3>Decida com dados</h3>
+        <p>Veja quais clientes têm histórico de atraso, antecipe recebíveis e exporte relatórios com um clique.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing" id="pricing">
+  <div class="container">
+    <div class="section-header">
+      <h2>Planos simples, sem surpresa</h2>
+      <p>Comece grátis. Escale sem travar.</p>
+    </div>
+    <div class="plans">
+      <div class="plan">
+        <div class="plan-name">Starter</div>
+        <div class="plan-price">R$0 <span>/ mês</span></div>
+        <div class="plan-desc">Até R$20k processados/mês. Ideal para testar e validar.</div>
+        <hr class="plan-divider">
+        <div class="plan-item">Gateway PIX + boleto</div>
+        <div class="plan-item">Régua básica de cobrança</div>
+        <div class="plan-item">Dashboard de recebíveis</div>
+        <div class="plan-item">1,2% por transação</div>
+      </div>
+      <div class="plan featured">
+        <div class="plan-badge">Mais popular</div>
+        <div class="plan-name">Pro</div>
+        <div class="plan-price">R$197 <span>/ mês</span></div>
+        <div class="plan-desc">Volume ilimitado. Para agências que querem crescer com previsibilidade.</div>
+        <hr class="plan-divider">
+        <div class="plan-item">Tudo do Starter</div>
+        <div class="plan-item">Régua inteligente com ML</div>
+        <div class="plan-item">Conciliação automática</div>
+        <div class="plan-item">Split de pagamento</div>
+        <div class="plan-item">Score de inadimplência</div>
+        <div class="plan-item">0,8% por transação</div>
+      </div>
+      <div class="plan">
+        <div class="plan-name">Enterprise</div>
+        <div class="plan-price">Custom</div>
+        <div class="plan-desc">Para redes, marketplaces e agências com mais de R$500k/mês.</div>
+        <hr class="plan-divider">
+        <div class="plan-item">Tudo do Pro</div>
+        <div class="plan-item">White-label completo</div>
+        <div class="plan-item">API dedicada + SLA</div>
+        <div class="plan-item">Antecipação de recebíveis</div>
+        <div class="plan-item">Taxa negociada</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-logo">
+      <div class="nav-logo-dot"></div>
+      flowi
+    </div>
+    <p>Finança inteligente para quem faz marketing crescer.</p>
+  </div>
+</footer>
+
+</body>
+</html>
